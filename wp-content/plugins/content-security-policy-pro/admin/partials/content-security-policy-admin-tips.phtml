@@ -1,0 +1,133 @@
+<!-- Modal -->
+<div class="modal modal--abs fade" id="wp-csp-tips" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Content Security Policy Templates</h4>
+      </div>
+      <div class="modal-body">
+      
+      	<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Here a few common scenarios for content security policies:</h3>
+			</div>
+			<div class="panel-body">
+				<div class='row'>
+					<div class='col-sm-6'>
+						<p><strong>Allow everything but only from the same origin</strong></p>
+        				<div class='well well-sm'>
+        						<div class='label-group label-group-lg'><span class="label label-info">default-src</span> <span class="label label-success">'self';</span></div>
+        						<p><a class='btn btn-primary btn-xs' id='wp-csp-template-origin' data-dismiss="modal">use this rule</a></p>
+        				</div>	
+					</div>
+					<div class='col-sm-6'>
+						<p><strong>Only Allow Scripts from the same origin</strong></p>
+        				<div class='well well-sm'>
+        						<div class='label-group label-group-lg'><span class="label label-info">script-src</span> <span class="label label-success">'self';</span></div>
+        						<p><a class='btn btn-primary btn-xs' id='wp-csp-template-origin-script' data-dismiss="modal">use this rule</a></p>
+        				</div>	
+					</div>
+					<div class='col-sm-6'>
+						<p><strong>Starter Policy</strong></p>
+        				<div class='well well-sm'>
+        						<div class='label-group label-group-lg'><span class="label label label-info">default-src</span> <span class="label label-success">'none';</span>
+        						<span class="label label-info">script-src</span> <span class="label label-success">'self';</span>
+        						<span class="label label-info">connect-src</span> <span class="label label-success">'self';</span>
+        						<span class="label label-info">img-src</span> <span class="label label-success">'self';</span>
+        						<span class="label label-info">style-src</span> <span class="label label-success">'self';</span>
+        						</div>
+        						<p><a class='btn btn-primary btn-xs' id='wp-csp-template-starter' data-dismiss="modal">use this rule</a></p> 
+        				</div>	
+        				<p>This policy allows images, scripts, AJAX, and CSS from the same origin, and does not allow any other resources to load (eg object, frame, media, etc). It is a good starting point for many sites.</p>
+					</div>
+					
+					<div class='col-sm-6'>
+						<p><strong>Allow Google Analytics, Google AJAX CDN and Same Origin</strong></p>
+        				<div class='well well-sm'>
+        						<div class='label-group label-group-lg'><span class="label label-info">script-src</span> <span class="label label-success">'self' www.google-analytics.com ajax.googleapis.com;</span></div>
+        						<p><a class='btn btn-primary btn-xs' id='wp-csp-template-origin-social' data-dismiss="modal">use this rule</a></p> 
+        				</div>	
+					</div>
+									
+				</div>
+			
+				
+			</div>
+		</div>
+      	
+        
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Social media widgets</h3>
+			</div>
+			<div class="panel-body">
+				<ul class='ul-styled'>
+					<li>Google's +1 button includes script from https://apis.google.com, and embeds an iframe from https://plusone.google.com. You'll need a policy that includes both these origins in order to embed the button. A minimal policy would be script-src https://apis.google.com; child-src https://plusone.google.com. You'll also need to ensure that the snippet of JavaScript that Google provides is pulled out into an external JavaScript file. If you had an existing policy using child-src, you would need to change it to child-src.</li>
+					<li>Facebook's Like button has a number of implementation options. I'd recommend sticking with the iframe version, as it's safely sandboxed from the rest of your site. That would require a child-src https://facebook.com directive to function properly. Note that, by default, the iframe code Facebook provides loads a relative URL, //facebook.com. Please change that to explicitly specify HTTPS: https://facebook.com. There's no reason to use HTTP if you don't have to.</li>
+					<li>Twitter's Tweet button relies on access to a script and frame, both hosted at https://platform.twitter.com (Twitter likewise provides a relative URL by default: please edit the code to specify HTTPS when copy/pasting it locally). You'll be all set with script-src https://platform.twitter.com; child-src https://platform.twitter.com, as long as you move the JavaScript snippet Twitter provides out into an external JavaScript file.</li>
+				</ul>			
+			
+				<div class='well'>
+						Content-Security-Policy: <br />
+						<div class='label-group label-group-lg'><span class="label label label-info">script-src</span> <span class="label label-success">https://apis.google.com https://platform.twitter.com;</span> 
+						<span class="label label-info">child-src</span> <span class="label label-success">https://plusone.google.com https://facebook.com https://platform.twitter.com</span>
+						</div>
+						<p><a class='btn btn-primary btn-sm' id='wp-csp-template-social' data-dismiss="modal">use this rule</a></p> 
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Lockdown</h3>
+			</div>
+			<div class="panel-body">
+				<p>Assume for a moment that you run a banking site, and want to make very sure that only those resources you've written yourself can be loaded. In this scenario, start with a default policy that blocks absolutely everything (default-src 'none'), and build up from there.</p>
+				<p>Let's say the bank loads all images, style, and script from a CDN at https://cdn.mybank.net, and connects via XHR to https://api.mybank.com/ to pull various bits of data down. Frames are used, but only for pages local to the site (no third-party origins). There's no Flash on the site, no fonts, no nothing. The most restrictive CSP header that we could send in this scenario is:</p>
+				
+				<div class='well'>
+						Content-Security-Policy: <br />
+						<div class='label-group label-group-lg'>
+						<span class="label label-info">default-src</span> <span class="label label-success">'none';</span> 
+						<span class="label label-info">script-src</span> <span class="label label-success">https://cdn.mybank.net;</span> 
+						<span class="label label-info">style-src</span> <span class="label label-success">https://cdn.mybank.net;</span>
+						<span class="label label-info">img-src</span> <span class="label label-success">https://cdn.mybank.net;</span> 
+						<span class="label label-info">connect-src</span> <span class="label label-success">https://api.mybank.com;</span> 
+						<span class="label label-info">child-src</span> <span class="label label-success">'self';</span>
+						</div>
+				</div>
+				
+
+				
+			</div>
+		</div>
+		
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">SSL Only</h3>
+			</div>
+			<div class="panel-body">
+				<p>A wedding-ring discussion forum admin wants to ensure that all resources are only loaded via secure channels, but doesn't really write much code; rewriting large chunks of the third-party forum software that's filled to the brim with inline script and style is beyond his abilities. The following policy would be effective:</p>
+				<div class='well'>
+						Content-Security-Policy:<br />
+						<div class='label-group label-group-lg'>
+						<span class="label label-info">default-src </span> <span class="label label-success"> https:;</span> 
+						<span class="label label-info">script-src </span> <span class="label label-success"> https: 'unsafe-inline';</span> 
+						<span class="label label-info">style-src </span> <span class="label label-success"> https: 'unsafe-inline'</span>
+						</div><p><a class='btn btn-primary btn-sm' id='wp-csp-template-ssl-only' data-dismiss="modal">use this rule</a></p>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

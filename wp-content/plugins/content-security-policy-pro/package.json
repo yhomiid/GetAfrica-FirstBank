@@ -1,0 +1,16 @@
+{
+  "name": "CSP",
+  "version": "1.0.0",
+  "scripts": {
+    "watch:scssx": "node-sass -w scss --source-map true --output-style expanded -o admin/css scss",
+	"watch:scss": "node-sass -w scss --output-style compressed -o admin/css scss",
+	"serve": "browser-sync start --proxy \"localhost/wp\" --files \"admin/css/*.css\"",
+	"watch:all": "parallelshell \"npm run serve\" \"npm run watch:scss\""
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "browser-sync": "^2.12.8",
+    "parallelshell": "^2.0.0",
+    "postcss-cli": "^2.5.2"
+  }
+}

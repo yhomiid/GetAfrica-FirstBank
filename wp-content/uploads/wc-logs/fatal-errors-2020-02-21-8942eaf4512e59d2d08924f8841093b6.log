@@ -1,0 +1,11 @@
+2020-02-21T13:15:51+00:00 CRITICAL Uncaught Error: Class 'Nasa_Caching' not found in /home/bluberry/public_html/getafrica/wp-content/plugins/nasa-core/admin/incls/nasa_00_functions.php:797
+Stack trace:
+#0 /home/bluberry/public_html/getafrica/wp-includes/class-wp-hook.php(288): nasa_del_cache_shortcodes(6)
+#1 /home/bluberry/public_html/getafrica/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 /home/bluberry/public_html/getafrica/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#3 /home/bluberry/public_html/getafrica/wp-includes/post.php(3951): do_action('save_post', 6, Object(WP_Post), false)
+#4 /home/bluberry/public_html/getafrica/wp-content/plugins/contact-form-7/includes/contact-form.php(868): wp_insert_post(Array)
+#5 /home/bluberry/public_html/getafrica/wp-content/plugins/contact-form-7/settings.php(148): WPCF7_ContactForm->save()
+#6 /home/bluberry/public_html/getafrica/wp-includes/class-wp-hook.php(284): wpcf7_install()
+#7 /home/bluberry/public_html/getafrica/wp-includes/class-wp-hook.php(310): WP_Hook->app in /home/bluberry/public_html/getafrica/wp-content/plugins/nasa-core/admin/incls/nasa_00_functions.php on line 797
+
